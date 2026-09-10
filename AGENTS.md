@@ -14,8 +14,13 @@ Workspace cached at `~/.cache/zmk-workspace` (west sources), wrappers in
 `~/.cache/zmk/run`, full log at `~/.cache/zmk/run/build.log`:
 
 ```sh
-bash /tmp/zmk-build-launch.sh
+./build.sh
 ```
+
+`build.sh` (launcher) mounts the repo into the zmk-build-arm container and runs
+`container-build.sh`, which holds the west build steps and runs inside the
+container with cwd `/workspace` (persistent west cache in
+`~/.cache/zmk-workspace`).
 
 The wrapper re-copies the repo into the workspace, then runs the same west
 commands as CI. Output `.uf2` files land in `artifacts/`. Image needed:

@@ -2,6 +2,8 @@ manifest:
   remotes:
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
+    - name: urob
+      url-base: https://github.com/urob
     - name: caksoylar
       url-base: https://github.com/caksoylar
     - name: geeksville
@@ -13,6 +15,9 @@ manifest:
       remote: zmkfirmware
       import: app/west.yml
       revision: v0.3
+    - name: zmk-helpers
+      remote: urob
+      revision: 95edb8f15ef1d1bd8332810555f8cf5837fbdd27 # main (urob pin)
     - name: zmk-rgbled-widget
       remote: caksoylar
       revision: v0.3

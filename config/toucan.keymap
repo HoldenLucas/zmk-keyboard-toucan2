@@ -72,7 +72,7 @@ SIMPLE_MORPH(qexcl, SFT, &kp QMARK, &kp EXCL)
             /* urob base layer (QWF..B / JLUY..) on the inner 5 cols; outer cols stay toucan. */
             bindings = <
                 &kp TAB   &kp Q &kp W &kp F &kp P &kp B   &kp J &kp L &kp U &kp Y &kp SQT &kp BSPC
-                &kp LCTRL &hml LGUI A &hml LALT R &hml LSHFT S &hml LCTRL T &kp G   &kp M &hmr LCTRL N &hmr RSHFT E &hmr LALT I &hmr LGUI O &kp SQT
+                &kp LCTRL &hml LGUI A &hml LALT R &hml LCTRL S &hml LSHFT T &kp G   &kp M &hmr RSHFT N &hmr LCTRL E &hmr LALT I &hmr LGUI O &kp SQT
                 &kp LSHFT &kp Z &kp X &kp C &kp D &kp V   &kp K &kp H &comma_morph &dot_morph &qexcl &kp ESC
                                    &kp LGUI &mo 1 &kp SPACE   &kp RET &mo 2 &kp RALT
             >;

@@ -40,6 +40,10 @@
 MAKE_HRM(hml, &kp, &kp, KEYS_R THUMBS) // Left-hand HRMs.
 MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS) // Right-hand HRMs.
 
+/* Combo hold-taps (urob hack): tap = symbol, hold = mod for chording. */
+MAKE_HRM(hm_combo_lpar, &kp, &lpar_lt, KEYS_L THUMBS)
+MAKE_HRM(hm_combo_rpar, &kp, &rpar_gt, KEYS_L THUMBS)
+
 /* Tap: comma | Shift+tap: semicolon | Ctrl+Shift+tap: <. */
 #define SIMPLE_MORPH(NAME, MOD, BINDING1, BINDING2)                            \
     ZMK_MOD_MORPH(NAME, mods = <(MOD_L##MOD | MOD_R##MOD)>;                    \
@@ -55,21 +59,107 @@ SIMPLE_MORPH(dot_inner_morph, CTL, &kp COLON, &kp GREATER_THAN)
 /* Tap: qmark | Shift+tap: excl. */
 SIMPLE_MORPH(qexcl, SFT, &kp QMARK, &kp EXCL)
 
+/* Tap: left/right paren | Shift+tap: </>. */
+SIMPLE_MORPH(lpar_lt, SFT, &kp LPAR, &kp LT)
+SIMPLE_MORPH(rpar_gt, SFT, &kp RPAR, &kp GT)
+
 / {
     combos {
         compatible = "zmk,combos";
-        /* Same home-row spots as the charybdis ESCAPE/ENTER combos. */
+        /* urob spots & tuning: esc LT3+LT2, bspc RT1+RT2, del RT2+RT3. */
         combo_esc {
-            timeout-ms = <50>;
-            key-positions = <14 15>; // R + S
+            timeout-ms = <18>;
+            key-positions = <2 3>; // W + F
             bindings = <&kp ESC>;
-            layers = <0>;
+            layers = <0 1 2>;
+            require-prior-idle-ms = <150>;
         };
-        combo_enter {
-            timeout-ms = <50>;
+        combo_bspc {
+            timeout-ms = <18>;
+            key-positions = <7 8>; // L + U
+            bindings = <&kp BSPC>;
+            layers = <0 1 2>;
+            require-prior-idle-ms = <150>;
+        };
+        combo_del {
+            timeout-ms = <18>;
+            key-positions = <8 9>; // U + Y
+            bindings = <&kp DEL>;
+            layers = <0 1 2>;
+            require-prior-idle-ms = <150>;
+        };
+        combo_tab {
+            timeout-ms = <18>;
+            key-positions = <14 15>; // R + S (urob LM3+LM2)
+            bindings = <&kp TAB>;
+            layers = <0 1 2>;
+            require-prior-idle-ms = <150>;
+        };
+        /* Clipboard: cut/copy/paste on bottom row left (urob LB3+LB1 etc). */
+        combo_cut {
+            timeout-ms = <18>;
+            key-positions = <26 28>; // X + D
+            bindings = <&kp LC(X)>;
+            layers = <0 1 2>;
+            require-prior-idle-ms = <150>;
+        };
+        combo_copy {
+            timeout-ms = <18>;
+            key-positions = <26 27>; // X + C
+            bindings = <&kp LC(INS)>;
+            layers = <0 1 2>;
+            require-prior-idle-ms = <150>;
+        };
+        combo_paste {
+            timeout-ms = <18>;
+            key-positions = <27 28>; // C + D
+            bindings = <&kp LS(INS)>;
+            layers = <0 1 2>;
+            require-prior-idle-ms = <150>;
+        };
+        /* Brackets: [ ] on typing/number layers, { } on NAV (urob RB1+RB2 / RB2+RB3). */
+        combo_lbkt {
+            timeout-ms = <18>;
+            key-positions = <31 32>; // H + comma
+            bindings = <&kp LBKT>;
+            layers = <0 1>;
+            require-prior-idle-ms = <150>;
+        };
+        combo_rbkt {
+            timeout-ms = <18>;
+            key-positions = <32 33>; // comma + dot
+            bindings = <&kp RBKT>;
+            layers = <0 1>;
+            require-prior-idle-ms = <150>;
+        };
+        combo_lbrc {
+            timeout-ms = <18>;
+            key-positions = <31 32>; // H + comma
+            bindings = <&kp LBRC>;
+            layers = <1>;
+            require-prior-idle-ms = <150>;
+        };
+        combo_rbrc {
+            timeout-ms = <18>;
+            key-positions = <32 33>; // comma + dot
+            bindings = <&kp RBRC>;
+            layers = <1>;
+            require-prior-idle-ms = <150>;
+        };
+        /* Parens: ( ) on BASE/NAV (urob RM1+RM2 / RM2+RM3). */
+        combo_lpar {
+            timeout-ms = <18>;
+            key-positions = <19 20>; // N + E
+            bindings = <&hm_combo_lpar RS(LCTRL) 0>;
+            layers = <0 1>;
+            require-prior-idle-ms = <150>;
+        };
+        combo_rpar {
+            timeout-ms = <18>;
             key-positions = <20 21>; // E + I
-            bindings = <&kp RET>;
-            layers = <0>;
+            bindings = <&hm_combo_rpar RS(LALT) 0>;
+            layers = <0 1>;
+            require-prior-idle-ms = <150>;
         };
     };
 
@@ -91,7 +181,7 @@ SIMPLE_MORPH(qexcl, SFT, &kp QMARK, &kp EXCL)
                 &none &kp Q &kp W &kp F &kp P &kp B   &kp J &kp L &kp U &kp Y &kp SQT &none
                 &none &hml LGUI A &hml LALT R &hml LCTRL S &hml LSHFT T &kp G   &kp M &hmr RSHFT N &hmr LCTRL E &hmr LALT I &hmr LGUI O &none
                 &none &kp Z &kp X &kp C &kp D &kp V   &kp K &kp H &comma_morph &dot_morph &qexcl &none
-                                   &kp LGUI &trans &lt NAV SPACE   &lt SYM RET &trans &kp RALT
+                                   &kp LGUI &kp RET &lt NAV SPACE   &lt SYM BSPC &trans &kp RALT
             >;
         };
 
